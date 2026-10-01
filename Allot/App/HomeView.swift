@@ -47,7 +47,7 @@ struct HomeView: View {
     private var header: some View {
         HStack(alignment: .top) {
             VStack(alignment: .leading, spacing: 6) {
-                Text("Shikaku")
+                Text("Allot")
                     .font(.system(size: 34, weight: .semibold))
                     .tracking(-1.2)
                 HStack(spacing: 8) {

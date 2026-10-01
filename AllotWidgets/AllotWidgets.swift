@@ -3,9 +3,9 @@ import SwiftUI
 import WidgetKit
 
 @main
-struct ShikakuWidgetBundle: WidgetBundle {
+struct AllotWidgetBundle: WidgetBundle {
     var body: some Widget {
-        DailyShikakuWidget()
+        DailyAllotWidget()
     }
 }
 
@@ -61,20 +61,20 @@ struct PuzzleProvider: TimelineProvider {
 
 // MARK: - Widget
 
-struct DailyShikakuWidget: Widget {
+struct DailyAllotWidget: Widget {
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: GameStore.widgetKind, provider: PuzzleProvider()) { entry in
-            DailyShikakuView(entry: entry)
+            DailyAllotView(entry: entry)
                 .containerBackground(Ink.canvas, for: .widget)
                 .appearance(entry.appearance)
         }
-        .configurationDisplayName("Daily Shikaku")
+        .configurationDisplayName("Allot")
         .description("A new puzzle every day. Divide the grid into boxes, each holding one number equal to its size.")
         .supportedFamilies([.systemLarge])
     }
 }
 
-struct DailyShikakuView: View {
+struct DailyAllotView: View {
     let entry: PuzzleEntry
 
     private var puzzle: Puzzle { entry.puzzle }
@@ -83,9 +83,9 @@ struct DailyShikakuView: View {
     var body: some View {
         VStack(spacing: 10) {
             HStack(alignment: .firstTextBaseline) {
-                Text(puzzle.difficulty.title).microLabelStyle(Ink.primary)
+                Text("Allot").microLabelStyle()
                 Spacer()
-                Text(Copy.date(puzzle.day)).microLabelStyle()
+                Text(Copy.level(puzzle.difficulty)).microLabelStyle(Ink.primary)
             }
 
             BoardView(puzzle: puzzle, board: board, input: .intents, showsFit: entry.showsFit)
@@ -111,7 +111,7 @@ struct DailyShikakuView: View {
 }
 
 #Preview(as: .systemLarge) {
-    DailyShikakuWidget()
+    DailyAllotWidget()
 } timeline: {
     let puzzle = Generator.puzzle(for: Generator.day(for: .now))
     PuzzleEntry(date: .now, puzzle: puzzle, board: Board(for: puzzle))

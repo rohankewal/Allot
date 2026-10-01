@@ -16,9 +16,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "000000000000000100000000"
-               BuildableName = "Shikaku.app"
-               BlueprintName = "Shikaku"
-               ReferencedContainer = "container:Shikaku.xcodeproj">
+               BuildableName = "Allot.app"
+               BlueprintName = "Allot"
+               ReferencedContainer = "container:Allot.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -34,9 +34,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "000000000000000400000000"
-               BuildableName = "ShikakuTests.xctest"
-               BlueprintName = "ShikakuTests"
-               ReferencedContainer = "container:Shikaku.xcodeproj">
+               BuildableName = "AllotTests.xctest"
+               BlueprintName = "AllotTests"
+               ReferencedContainer = "container:Allot.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -56,9 +56,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "000000000000000100000000"
-               BuildableName = "Shikaku.app"
-               BlueprintName = "Shikaku"
-               ReferencedContainer = "container:Shikaku.xcodeproj">
+               BuildableName = "Allot.app"
+               BlueprintName = "Allot"
+               ReferencedContainer = "container:Allot.xcodeproj">
             </BuildableReference>
       </BuildableProductRunnable>
       <CommandLineArguments>
@@ -79,9 +79,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "000000000000000100000000"
-               BuildableName = "Shikaku.app"
-               BlueprintName = "Shikaku"
-               ReferencedContainer = "container:Shikaku.xcodeproj">
+               BuildableName = "Allot.app"
+               BlueprintName = "Allot"
+               ReferencedContainer = "container:Allot.xcodeproj">
             </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

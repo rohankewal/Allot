@@ -4,7 +4,7 @@ import Foundation
 /// Only one board is ever kept: at midnight yesterday's board, finished or
 /// not, is simply replaced.
 nonisolated enum GameStore {
-    static let widgetKind = "ShikakuDaily"
+    static let widgetKind = "AllotDaily"
 
     private static let boardKey = "board"
     private static let puzzlesKey = "puzzles"

@@ -1,6 +1,8 @@
-# Shikaku
+# Allot
 
-A daily Shikaku puzzle that lives on the Home Screen. The app is just a way
+Formerly Shikaku (the name was taken on the App Store).
+
+A daily Shikaku-style puzzle that lives on the Home Screen. The app is just a way
 to get the widget: it shows the same board, the rules, and how to add it.
 
 Same family as Lift and Settle: SwiftUI, the monochrome Ink palette (light
@@ -51,14 +53,14 @@ Stored in the App Group (`Shared/Settings.swift`) so the widget follows them.
 |---|---|---|
 | `Shared/Engine` | all | Puzzle model, seeded generator, solver |
 | `Shared` | app + widget | Board state, App Group store, intents, theme, `BoardView` |
-| `ShikakuWidgets` | widget | Large widget, timeline (now + midnight) |
-| `Shikaku` | app | Home screen with the board, rules, widget steps |
-| `ShikakuTests` | tests | A year of boards: unique, no guessing, stable |
+| `AllotWidgets` | widget | Large widget, timeline (now + midnight) |
+| `Allot` | app | Home screen with the board, rules, widget steps |
+| `AllotTests` | tests | A year of boards: unique, no guessing, stable |
 
 ## First run
 
-1. Open `Shikaku.xcodeproj`. Team and bundle IDs are set
-   (`com.rohankewalramani.Shikaku`, App Group
-   `group.com.rohankewalramani.Shikaku`); Xcode registers the group.
-2. Run the **Shikaku** scheme, then add the large widget to the Home Screen.
+1. Open `Allot.xcodeproj`. Team and bundle IDs are set
+   (`com.rohankewalramani.Allot`, App Group
+   `group.com.rohankewalramani.Allot`); Xcode registers the group.
+2. Run the **Allot** scheme, then add the large widget to the Home Screen.
 3. Deployment target is iOS 17, the first with interactive widgets.

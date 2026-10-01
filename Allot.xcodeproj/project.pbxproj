@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		000000000000000180000000 /* ShikakuWidgets.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 000000000000000000000130 /* ShikakuWidgets.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		000000000000000180000000 /* AllotWidgets.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 000000000000000000000130 /* AllotWidgets.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -16,7 +16,7 @@
 			containerPortal = 000000000000000000000000 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 000000000000000200000000;
-			remoteInfo = ShikakuWidgets;
+			remoteInfo = AllotWidgets;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -26,27 +26,27 @@
 			dstPath = "";
 			dstSubfolder = PlugIns;
 			files = (
-				000000000000000180000000 /* ShikakuWidgets.appex in Embed Foundation Extensions */,
+				000000000000000180000000 /* AllotWidgets.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		000000000000000000000120 /* Shikaku.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Shikaku.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		000000000000000000000130 /* ShikakuWidgets.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ShikakuWidgets.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		000000000000000000000150 /* ShikakuTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ShikakuTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		000000000000000000000120 /* Allot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Allot.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		000000000000000000000130 /* AllotWidgets.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = AllotWidgets.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		000000000000000000000150 /* AllotTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AllotTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		000000000000000000000010 /* Shikaku */ = {
+		000000000000000000000010 /* Allot */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = Shikaku;
+			path = Allot;
 			sourceTree = "<group>";
 		};
-		000000000000000000000030 /* ShikakuWidgets */ = {
+		000000000000000000000030 /* AllotWidgets */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = ShikakuWidgets;
+			path = AllotWidgets;
 			sourceTree = "<group>";
 		};
 		000000000000000000000040 /* Shared */ = {
@@ -54,9 +54,9 @@
 			path = Shared;
 			sourceTree = "<group>";
 		};
-		000000000000000000000050 /* ShikakuTests */ = {
+		000000000000000000000050 /* AllotTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = ShikakuTests;
+			path = AllotTests;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -83,10 +83,10 @@
 		000000000000000000000001 = {
 			isa = PBXGroup;
 			children = (
-				000000000000000000000010 /* Shikaku */,
+				000000000000000000000010 /* Allot */,
 				000000000000000000000040 /* Shared */,
-				000000000000000000000030 /* ShikakuWidgets */,
-				000000000000000000000050 /* ShikakuTests */,
+				000000000000000000000030 /* AllotWidgets */,
+				000000000000000000000050 /* AllotTests */,
 				000000000000000000000020 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -94,9 +94,9 @@
 		000000000000000000000020 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				000000000000000000000120 /* Shikaku.app */,
-				000000000000000000000130 /* ShikakuWidgets.appex */,
-				000000000000000000000150 /* ShikakuTests.xctest */,
+				000000000000000000000120 /* Allot.app */,
+				000000000000000000000130 /* AllotWidgets.appex */,
+				000000000000000000000150 /* AllotTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -104,9 +104,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		000000000000000100000000 /* Shikaku */ = {
+		000000000000000100000000 /* Allot */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 000000000000000110000000 /* Build configuration list for PBXNativeTarget "Shikaku" */;
+			buildConfigurationList = 000000000000000110000000 /* Build configuration list for PBXNativeTarget "Allot" */;
 			buildPhases = (
 				000000000000000120000000 /* Sources */,
 				000000000000000130000000 /* Frameworks */,
@@ -119,17 +119,17 @@
 				000000000000000160000000 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				000000000000000000000010 /* Shikaku */,
+				000000000000000000000010 /* Allot */,
 				000000000000000000000040 /* Shared */,
 			);
-			name = Shikaku;
-			productName = Shikaku;
-			productReference = 000000000000000000000120 /* Shikaku.app */;
+			name = Allot;
+			productName = Allot;
+			productReference = 000000000000000000000120 /* Allot.app */;
 			productType = "com.apple.product-type.application";
 		};
-		000000000000000200000000 /* ShikakuWidgets */ = {
+		000000000000000200000000 /* AllotWidgets */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 000000000000000210000000 /* Build configuration list for PBXNativeTarget "ShikakuWidgets" */;
+			buildConfigurationList = 000000000000000210000000 /* Build configuration list for PBXNativeTarget "AllotWidgets" */;
 			buildPhases = (
 				000000000000000220000000 /* Sources */,
 				000000000000000230000000 /* Frameworks */,
@@ -138,17 +138,17 @@
 			buildRules = (
 			);
 			fileSystemSynchronizedGroups = (
-				000000000000000000000030 /* ShikakuWidgets */,
+				000000000000000000000030 /* AllotWidgets */,
 				000000000000000000000040 /* Shared */,
 			);
-			name = ShikakuWidgets;
-			productName = ShikakuWidgets;
-			productReference = 000000000000000000000130 /* ShikakuWidgets.appex */;
+			name = AllotWidgets;
+			productName = AllotWidgets;
+			productReference = 000000000000000000000130 /* AllotWidgets.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
-		000000000000000400000000 /* ShikakuTests */ = {
+		000000000000000400000000 /* AllotTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 000000000000000410000000 /* Build configuration list for PBXNativeTarget "ShikakuTests" */;
+			buildConfigurationList = 000000000000000410000000 /* Build configuration list for PBXNativeTarget "AllotTests" */;
 			buildPhases = (
 				000000000000000420000000 /* Sources */,
 				000000000000000430000000 /* Frameworks */,
@@ -158,11 +158,11 @@
 			);
 			fileSystemSynchronizedGroups = (
 				000000000000000000000040 /* Shared */,
-				000000000000000000000050 /* ShikakuTests */,
+				000000000000000000000050 /* AllotTests */,
 			);
-			name = ShikakuTests;
-			productName = ShikakuTests;
-			productReference = 000000000000000000000150 /* ShikakuTests.xctest */;
+			name = AllotTests;
+			productName = AllotTests;
+			productReference = 000000000000000000000150 /* AllotTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -180,7 +180,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 000000000000000010000000 /* Build configuration list for PBXProject "Shikaku" */;
+			buildConfigurationList = 000000000000000010000000 /* Build configuration list for PBXProject "Allot" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -194,9 +194,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				000000000000000100000000 /* Shikaku */,
-				000000000000000200000000 /* ShikakuWidgets */,
-				000000000000000400000000 /* ShikakuTests */,
+				000000000000000100000000 /* Allot */,
+				000000000000000200000000 /* AllotWidgets */,
+				000000000000000400000000 /* AllotTests */,
 			);
 		};
 /* End PBXProject section */
@@ -240,13 +240,13 @@
 /* Begin PBXTargetDependency section */
 		000000000000000160000000 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 000000000000000200000000 /* ShikakuWidgets */;
+			target = 000000000000000200000000 /* AllotWidgets */;
 			targetProxy = 000000000000000170000000 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		000000000000000011000000 /* Debug configuration for PBXProject "Shikaku" */ = {
+		000000000000000011000000 /* Debug configuration for PBXProject "Allot" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -310,7 +310,7 @@
 			};
 			name = Debug;
 		};
-		000000000000000012000000 /* Release configuration for PBXProject "Shikaku" */ = {
+		000000000000000012000000 /* Release configuration for PBXProject "Allot" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -366,18 +366,18 @@
 			};
 			name = Release;
 		};
-		000000000000000111000000 /* Debug configuration for PBXNativeTarget "Shikaku" */ = {
+		000000000000000111000000 /* Debug configuration for PBXNativeTarget "Allot" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Shikaku.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Allot.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 5T9FM8Q9KQ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Shikaku-Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = Shikaku;
+				INFOPLIST_FILE = "Allot-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = Allot;
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.puzzle-games";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
@@ -388,7 +388,7 @@
 				INFOPLIST_KEY_UIUserInterfaceStyle = Automatic;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.rohankewalramani.Shikaku;
+				PRODUCT_BUNDLE_IDENTIFIER = com.rohankewalramani.Allot;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				SDKROOT = auto;
@@ -402,18 +402,18 @@
 			};
 			name = Debug;
 		};
-		000000000000000112000000 /* Release configuration for PBXNativeTarget "Shikaku" */ = {
+		000000000000000112000000 /* Release configuration for PBXNativeTarget "Allot" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Shikaku.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Allot.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 5T9FM8Q9KQ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Shikaku-Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = Shikaku;
+				INFOPLIST_FILE = "Allot-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = Allot;
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.puzzle-games";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
@@ -424,7 +424,7 @@
 				INFOPLIST_KEY_UIUserInterfaceStyle = Automatic;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.rohankewalramani.Shikaku;
+				PRODUCT_BUNDLE_IDENTIFIER = com.rohankewalramani.Allot;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				SDKROOT = auto;
@@ -438,23 +438,23 @@
 			};
 			name = Release;
 		};
-		000000000000000211000000 /* Debug configuration for PBXNativeTarget "ShikakuWidgets" */ = {
+		000000000000000211000000 /* Debug configuration for PBXNativeTarget "AllotWidgets" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = ShikakuWidgets.entitlements;
+				CODE_SIGN_ENTITLEMENTS = AllotWidgets.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 5T9FM8Q9KQ;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "ShikakuWidgets-Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = Shikaku;
+				INFOPLIST_FILE = "AllotWidgets-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = Allot;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.rohankewalramani.Shikaku.Widgets;
+				PRODUCT_BUNDLE_IDENTIFIER = com.rohankewalramani.Allot.Widgets;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				SDKROOT = auto;
@@ -470,23 +470,23 @@
 			};
 			name = Debug;
 		};
-		000000000000000212000000 /* Release configuration for PBXNativeTarget "ShikakuWidgets" */ = {
+		000000000000000212000000 /* Release configuration for PBXNativeTarget "AllotWidgets" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = ShikakuWidgets.entitlements;
+				CODE_SIGN_ENTITLEMENTS = AllotWidgets.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 5T9FM8Q9KQ;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "ShikakuWidgets-Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = Shikaku;
+				INFOPLIST_FILE = "AllotWidgets-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = Allot;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.rohankewalramani.Shikaku.Widgets;
+				PRODUCT_BUNDLE_IDENTIFIER = com.rohankewalramani.Allot.Widgets;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				SDKROOT = auto;
@@ -501,7 +501,7 @@
 			};
 			name = Release;
 		};
-		000000000000000411000000 /* Debug configuration for PBXNativeTarget "ShikakuTests" */ = {
+		000000000000000411000000 /* Debug configuration for PBXNativeTarget "AllotTests" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
@@ -509,7 +509,7 @@
 				DEVELOPMENT_TEAM = 5T9FM8Q9KQ;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.rohankewalramani.Shikaku.Tests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.rohankewalramani.Allot.Tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -522,7 +522,7 @@
 			};
 			name = Debug;
 		};
-		000000000000000412000000 /* Release configuration for PBXNativeTarget "ShikakuTests" */ = {
+		000000000000000412000000 /* Release configuration for PBXNativeTarget "AllotTests" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
@@ -530,7 +530,7 @@
 				DEVELOPMENT_TEAM = 5T9FM8Q9KQ;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.rohankewalramani.Shikaku.Tests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.rohankewalramani.Allot.Tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -546,35 +546,35 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		000000000000000010000000 /* Build configuration list for PBXProject "Shikaku" */ = {
+		000000000000000010000000 /* Build configuration list for PBXProject "Allot" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				000000000000000011000000 /* Debug configuration for PBXProject "Shikaku" */,
-				000000000000000012000000 /* Release configuration for PBXProject "Shikaku" */,
+				000000000000000011000000 /* Debug configuration for PBXProject "Allot" */,
+				000000000000000012000000 /* Release configuration for PBXProject "Allot" */,
 			);
 			defaultConfigurationName = Release;
 		};
-		000000000000000110000000 /* Build configuration list for PBXNativeTarget "Shikaku" */ = {
+		000000000000000110000000 /* Build configuration list for PBXNativeTarget "Allot" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				000000000000000111000000 /* Debug configuration for PBXNativeTarget "Shikaku" */,
-				000000000000000112000000 /* Release configuration for PBXNativeTarget "Shikaku" */,
+				000000000000000111000000 /* Debug configuration for PBXNativeTarget "Allot" */,
+				000000000000000112000000 /* Release configuration for PBXNativeTarget "Allot" */,
 			);
 			defaultConfigurationName = Release;
 		};
-		000000000000000210000000 /* Build configuration list for PBXNativeTarget "ShikakuWidgets" */ = {
+		000000000000000210000000 /* Build configuration list for PBXNativeTarget "AllotWidgets" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				000000000000000211000000 /* Debug configuration for PBXNativeTarget "ShikakuWidgets" */,
-				000000000000000212000000 /* Release configuration for PBXNativeTarget "ShikakuWidgets" */,
+				000000000000000211000000 /* Debug configuration for PBXNativeTarget "AllotWidgets" */,
+				000000000000000212000000 /* Release configuration for PBXNativeTarget "AllotWidgets" */,
 			);
 			defaultConfigurationName = Release;
 		};
-		000000000000000410000000 /* Build configuration list for PBXNativeTarget "ShikakuTests" */ = {
+		000000000000000410000000 /* Build configuration list for PBXNativeTarget "AllotTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				000000000000000411000000 /* Debug configuration for PBXNativeTarget "ShikakuTests" */,
-				000000000000000412000000 /* Release configuration for PBXNativeTarget "ShikakuTests" */,
+				000000000000000411000000 /* Debug configuration for PBXNativeTarget "AllotTests" */,
+				000000000000000412000000 /* Release configuration for PBXNativeTarget "AllotTests" */,
 			);
 			defaultConfigurationName = Release;
 		};

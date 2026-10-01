@@ -72,6 +72,11 @@ enum Copy {
         return "\(board.boxes.count) of \(puzzle.clues.count) boxes drawn"
     }
 
+    /// "Hard · 7×7"
+    static func level(_ difficulty: Difficulty) -> String {
+        "\(difficulty.title) · \(difficulty.size)×\(difficulty.size)"
+    }
+
     static func date(_ day: Int) -> String {
         Generator.date(for: day).formatted(.dateTime.weekday(.abbreviated).month(.abbreviated).day())
     }

@@ -62,7 +62,7 @@ nonisolated enum DifficultyChoice: String, CaseIterable, Identifiable, Sendable 
 }
 
 nonisolated enum Settings {
-    static let appGroup = "group.com.rohankewalramani.Shikaku"
+    static let appGroup = "group.com.rohankewalramani.Allot"
 
     static var defaults: UserDefaults {
         UserDefaults(suiteName: appGroup) ?? .standard

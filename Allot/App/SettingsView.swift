@@ -79,7 +79,7 @@ struct SettingsView: View {
 
                 Section {
                     Line("Touch and hold an empty part of your Home Screen until the apps jiggle.")
-                    Line("Tap Edit, then Add Widget, and search for Shikaku.")
+                    Line("Tap Edit, then Add Widget, and search for Allot.")
                     Line("Choose the large size and tap Add Widget. You can play right there.")
                 } header: {
                     header("Add the widget")

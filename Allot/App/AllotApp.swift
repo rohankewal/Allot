@@ -2,7 +2,7 @@ import SwiftUI
 import UIKit
 
 @main
-struct ShikakuApp: App {
+struct AllotApp: App {
     @AppStorage(Settings.Key.appearance, store: Settings.defaults)
     private var appearance: Appearance = .system
 
