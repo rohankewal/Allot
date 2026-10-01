@@ -8,33 +8,30 @@ nonisolated enum Generator {
     /// What each difficulty asks of a board.
     struct Profile: Sendable {
         let size: Int
-        /// Relative chance of each area (index = area). Area 1 is kept rare:
-        /// a lone 1 is a free answer.
+        /// Relative chance of each area (index = area). Area 1 is always 0:
+        /// there are no single-cell boxes, so the smallest number is 2.
         let areaWeights: [Int]
         /// The hardest reasoning allowed, and the easiest required.
         let minTechnique: Solver.Technique
         let maxTechnique: Solver.Technique
         /// For hard boards: how many times the overlap rule must be needed.
         let minOverlapSteps: Int
-        /// Lone 1×1 cells allowed. Tilings trap them in corners more often
-        /// than the weights suggest, and each is a free answer.
-        let maxOnes: Int
     }
 
     static func profile(_ difficulty: Difficulty) -> Profile {
         switch difficulty {
         case .easy:
             Profile(size: 5,
-                    areaWeights: [0, 1, 10, 14, 12, 8, 6],
-                    minTechnique: .basic, maxTechnique: .basic, minOverlapSteps: 0, maxOnes: 1)
+                    areaWeights: [0, 0, 10, 14, 12, 8, 6],
+                    minTechnique: .basic, maxTechnique: .basic, minOverlapSteps: 0)
         case .medium:
             Profile(size: 6,
-                    areaWeights: [0, 1, 6, 10, 12, 10, 9, 6, 6, 4],
-                    minTechnique: .basic, maxTechnique: .overlap, minOverlapSteps: 0, maxOnes: 1)
+                    areaWeights: [0, 0, 6, 10, 12, 10, 9, 6, 6, 4],
+                    minTechnique: .basic, maxTechnique: .overlap, minOverlapSteps: 0)
         case .hard:
             Profile(size: 7,
-                    areaWeights: [0, 1, 3, 6, 9, 9, 10, 7, 8, 6, 5, 3, 4],
-                    minTechnique: .overlap, maxTechnique: .overlap, minOverlapSteps: 2, maxOnes: 0)
+                    areaWeights: [0, 0, 3, 6, 9, 9, 10, 7, 8, 6, 5, 3, 4],
+                    minTechnique: .overlap, maxTechnique: .overlap, minOverlapSteps: 2)
         }
     }
 
@@ -87,8 +84,7 @@ nonisolated enum Generator {
         var fallback: Puzzle?
 
         for _ in 0..<4000 {
-            let boxes = partition(size: p.size, weights: p.areaWeights, rng: &rng)
-            guard boxes.filter({ $0.area == 1 }).count <= p.maxOnes else { continue }
+            guard let boxes = partition(size: p.size, weights: p.areaWeights, rng: &rng) else { continue }
             // Lots of 2s make a board feel filled in before you start.
             guard boxes.filter({ $0.area == 2 }).count * 4 <= boxes.count + 1 else { continue }
             // A few clue placements per tiling before giving it up.
@@ -114,7 +110,9 @@ nonisolated enum Generator {
 
     /// Tiles the board with random rectangles, filling cells in reading
     /// order: each empty cell becomes the top-left of a new rectangle.
-    static func partition(size n: Int, weights: [Int], rng: inout SeededRandom) -> [Box] {
+    /// Nil when a cell gets boxed in with no allowed shape left (a lone
+    /// corner cell, now that 1×1 isn't allowed); the caller tries again.
+    static func partition(size n: Int, weights: [Int], rng: inout SeededRandom) -> [Box]? {
         var covered: UInt64 = 0
         var boxes: [Box] = []
         let maxArea = weights.count - 1
@@ -135,6 +133,7 @@ nonisolated enum Generator {
                     shapeWeights.append(weights[area] * thin)
                 }
             }
+            guard !shapes.isEmpty else { return nil }
             let box = shapes[rng.weighted(shapeWeights)]
             boxes.append(box)
             covered |= box.mask(size: n)

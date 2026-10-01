@@ -10,6 +10,9 @@ and dark as true inversions), Xcode 27 with synchronized folders.
 
 ## The puzzle
 
+- **No single-cell boxes.** Every box is at least two cells, so the
+  smallest number on a board is 2.
+
 - **One a day, for everyone.** Boards are made on the phone from the date
   (seeded SplitMix64), so there's no server and everyone gets the same board
   on the same day. It changes at local midnight whether or not the last one
@@ -23,7 +26,7 @@ and dark as true inversions), Xcode 27 with synchronized folders.
 ## Playing in a widget
 
 Widgets can't follow a drag, so a box is drawn with two taps: one corner,
-then the opposite corner (the same cell twice makes a 1×1). A new box
+then the opposite corner (tapping the first corner again cancels it). A new box
 replaces any it overlaps; tapping a box removes it. Each cell is a
 `Button(intent:)` running `TapCellIntent`, which saves to the App Group;
 WidgetKit redraws afterwards.

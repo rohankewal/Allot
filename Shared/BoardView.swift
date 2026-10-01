@@ -5,7 +5,7 @@ import SwiftUI
 ///
 /// In the app, boxes are dragged out: press on one corner, drag to the
 /// opposite one, let go. A live outline and size badge follow the finger.
-/// A quick tap removes a box (or makes a 1×1 on an empty cell). VoiceOver
+/// A quick tap removes a box. Boxes are at least two cells. VoiceOver
 /// users draw with two taps instead, as on the widget.
 ///
 /// In the widget each cell is a `Button(intent:)`, because widgets only take
@@ -34,7 +34,6 @@ struct BoardView: View {
     private struct DragState: Equatable {
         var start: Int
         var end: Int
-        var moved: Bool
     }
 
     @GestureState private var drag: DragState?
@@ -90,7 +89,9 @@ struct BoardView: View {
     private func radius(_ cell: CGFloat) -> CGFloat { max(4, cell * 0.14) }
 
     private var preview: Box? {
-        guard let drag, drag.moved || drag.start != drag.end else { return nil }
+        // Boxes are at least two cells, so nothing shows until the finger
+        // reaches a second cell.
+        guard let drag, drag.start != drag.end else { return nil }
         return Box(spanning: drag.start, drag.end, size: puzzle.size)
     }
 
@@ -217,23 +218,16 @@ struct BoardView: View {
     }
 
     private func dragGesture(cell: CGFloat, interaction: Interaction) -> some Gesture {
-        // A press only counts as a drag once it has travelled a third of a
-        // cell, so a shaky tap still reads as a tap.
-        let threshold = cell * 0.33
-        return DragGesture(minimumDistance: 0)
+        // Letting go in the cell you started in is a tap (it removes the box
+        // there); anywhere else draws the box between the two cells.
+        DragGesture(minimumDistance: 0)
             .updating($drag) { value, state, _ in
-                let distance = hypot(value.translation.width, value.translation.height)
-                state = DragState(
-                    start: cellAt(value.startLocation, cell),
-                    end: cellAt(value.location, cell),
-                    moved: (state?.moved ?? false) || distance > threshold
-                )
+                state = DragState(start: cellAt(value.startLocation, cell), end: cellAt(value.location, cell))
             }
             .onEnded { value in
                 let start = cellAt(value.startLocation, cell)
                 let end = cellAt(value.location, cell)
-                let distance = hypot(value.translation.width, value.translation.height)
-                if start == end && distance <= threshold {
+                if start == end {
                     interaction.quickTap(start)
                 } else {
                     interaction.place(Box(spanning: start, end, size: puzzle.size))

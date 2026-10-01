@@ -17,6 +17,22 @@ struct EngineTests {
         }
     }
 
+    /// Every box is at least two cells: no 1s on any board.
+    @Test func noSingleCellBoxes() {
+        for day in 0..<365 {
+            let puzzle = Generator.make(day: day, difficulty: Generator.difficulty(for: day))
+            #expect(puzzle.clues.allSatisfy { $0.value >= 2 })
+        }
+    }
+
+    @Test func tappingTheFirstCornerAgainCancels() {
+        let puzzle = Generator.make(day: 3, difficulty: .easy)
+        var board = Board(for: puzzle)
+        board.tap(4, puzzle: puzzle)
+        board.tap(4, puzzle: puzzle)
+        #expect(board.anchor == nil && board.boxes.isEmpty)
+    }
+
     @Test func allDifficultiesTurnUp() {
         let seen = Set((0..<60).map(Generator.difficulty(for:)))
         #expect(seen == Set(Difficulty.allCases))
@@ -77,8 +93,8 @@ struct EngineTests {
         #expect(board.boxes == [Box(top: 2, left: 0, bottom: 2, right: 1)])
         board.quickTap(10, puzzle: puzzle)                                      // on the box: removes
         #expect(board.boxes.isEmpty)
-        board.quickTap(0, puzzle: puzzle)                                       // empty cell: 1×1
-        #expect(board.boxes == [Box(top: 0, left: 0, bottom: 0, right: 0)])
+        board.quickTap(0, puzzle: puzzle)                                       // empty cell: nothing
+        #expect(board.boxes.isEmpty)
         // Dragging out the whole answer solves it.
         var solved = Board(for: puzzle)
         for b in puzzle.solution { solved.place(b, puzzle: puzzle) }
