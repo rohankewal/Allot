@@ -44,7 +44,16 @@ enum Motion {
 // MARK: - Words
 
 enum Copy {
-    static func status(_ board: Board, puzzle: Puzzle, showsTime: Bool, showsFit: Bool) -> String {
+    /// The line under the board. `dragging` is the box under the finger in
+    /// the app; `byDragging` says how boxes are drawn where this is shown.
+    static func status(
+        _ board: Board,
+        puzzle: Puzzle,
+        showsTime: Bool,
+        showsFit: Bool,
+        dragging: Box? = nil,
+        byDragging: Bool = false
+    ) -> String {
         if let solved = board.solvedAt {
             if showsTime, let started = board.startedAt {
                 let minutes = max(1, Int((solved.timeIntervalSince(started) / 60).rounded()))
@@ -52,8 +61,11 @@ enum Copy {
             }
             return "Solved"
         }
+        if let box = dragging { return "\(box.width) × \(box.height) = \(box.area)" }
         if board.anchor != nil { return "Now tap the opposite corner" }
-        if board.boxes.isEmpty { return "Tap two corners to draw a box" }
+        if board.boxes.isEmpty {
+            return byDragging ? "Drag across the cells to draw a box" : "Tap two corners to draw a box"
+        }
         // Counting boxes that fit would be a hint, so with hints off this
         // counts boxes drawn instead.
         if showsFit { return "\(board.satisfiedCount(in: puzzle)) of \(puzzle.clues.count) boxes fit" }

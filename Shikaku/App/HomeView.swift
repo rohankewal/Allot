@@ -1,11 +1,13 @@
 import Combine
 import SwiftUI
 
-/// The app is mostly a way to get the widget: today's puzzle (the same one,
-/// kept in step with the widget), the rules, and how to add it.
+/// Today's puzzle (the same one, kept in step with the widget). The rules
+/// and how to add the widget live in Settings, so the board isn't inside a
+/// scroll view that would fight the drag.
 struct HomeView: View {
     @State private var model = GameModel()
     @State private var showingSettings = false
+    @State private var dragging: Box?
     @Environment(\.scenePhase) private var scenePhase
 
     @AppStorage(Settings.Key.showsFit, store: Settings.defaults) private var showsFit = true
@@ -13,16 +15,14 @@ struct HomeView: View {
     @AppStorage(Settings.Key.haptics, store: Settings.defaults) private var haptics = true
 
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 28) {
-                header
-                game
-                rules
-                addWidget
-            }
-            .padding(.horizontal, 20)
-            .padding(.vertical, 24)
+        VStack(alignment: .leading, spacing: 28) {
+            header
+            game
+            Spacer(minLength: 0)
         }
+        .padding(.horizontal, 20)
+        .padding(.vertical, 24)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .background(Ink.canvas)
         .foregroundStyle(Ink.primary)
         .onChange(of: scenePhase) { _, phase in
@@ -39,6 +39,8 @@ struct HomeView: View {
             model.refresh()
         }
         .sensoryFeedback(trigger: model.board.boxes) { _, _ in haptics ? .selection : nil }
+        // A light tick each time the box under the finger changes size.
+        .sensoryFeedback(trigger: dragging) { _, box in haptics && box != nil ? .impact(weight: .light, intensity: 0.6) : nil }
         .sensoryFeedback(trigger: model.board.isSolved) { _, solved in haptics && solved ? .success : nil }
     }
 
@@ -67,13 +69,22 @@ struct HomeView: View {
 
     private var game: some View {
         VStack(spacing: 14) {
-            BoardView(puzzle: model.puzzle, board: model.board, input: .action { cell in
-                withAnimation(Motion.snap) { model.tap(cell) }
-            }, showsFit: showsFit)
+            BoardView(
+                puzzle: model.puzzle,
+                board: model.board,
+                input: .interactive(.init(
+                    place: { box in withAnimation(Motion.snap) { model.place(box) } },
+                    quickTap: { cell in withAnimation(Motion.snap) { model.quickTap(cell) } },
+                    cornerTap: { cell in model.cornerTap(cell) },
+                    onPreview: { dragging = $0 }
+                )),
+                showsFit: showsFit
+            )
             HStack(alignment: .firstTextBaseline) {
-                Text(Copy.status(model.board, puzzle: model.puzzle, showsTime: showsTime, showsFit: showsFit))
+                Text(Copy.status(model.board, puzzle: model.puzzle, showsTime: showsTime, showsFit: showsFit,
+                                 dragging: dragging, byDragging: true))
                     .font(.subheadline.monospacedDigit())
-                    .foregroundStyle(model.board.isSolved ? Ink.primary : Ink.secondary)
+                    .foregroundStyle(model.board.isSolved || dragging != nil ? Ink.primary : Ink.secondary)
                 Spacer()
                 if !model.board.isEmpty && !model.board.isSolved {
                     Button("Clear") { withAnimation(Motion.snap) { model.clear() } }
@@ -88,37 +99,6 @@ struct HomeView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
         }
-    }
-
-    private var rules: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            Text("How to play").microLabelStyle()
-            Line("Split the grid into boxes. Every box holds exactly one number, and that number is how many cells the box covers.")
-            Line("Tap a cell, then the opposite corner, to draw a box. Tap the same cell twice for a single square.")
-            Line("A dashed box is the wrong size. Tap a box to remove it. You can turn the dashes off in Settings.")
-            Line("Easy, medium or hard, chosen at random unless you pick one in Settings. A new puzzle every midnight, finished or not.")
-        }
-    }
-
-    private var addWidget: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            Text("Add the widget").microLabelStyle()
-            Line("Touch and hold an empty part of your Home Screen until the apps jiggle.")
-            Line("Tap Edit, then Add Widget, and search for Shikaku.")
-            Line("Choose the large size and tap Add Widget. You can play right there.")
-        }
-    }
-}
-
-private struct Line: View {
-    let text: String
-    init(_ text: String) { self.text = text }
-
-    var body: some View {
-        Text(text)
-            .font(.subheadline)
-            .foregroundStyle(Ink.secondary)
-            .fixedSize(horizontal: false, vertical: true)
     }
 }
 

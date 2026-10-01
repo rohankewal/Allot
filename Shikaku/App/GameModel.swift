@@ -21,10 +21,23 @@ final class GameModel {
         board = GameStore.board(for: puzzle)
     }
 
-    func tap(_ cell: Int) {
+    func place(_ box: Box) {
+        change { $0.place(box, puzzle: puzzle) }
+    }
+
+    func quickTap(_ cell: Int) {
+        change { $0.quickTap(cell, puzzle: puzzle) }
+    }
+
+    /// Two-tap drawing, used by VoiceOver.
+    func cornerTap(_ cell: Int) {
+        change { $0.tap(cell, puzzle: puzzle) }
+    }
+
+    private func change(_ body: (inout Board) -> Void) {
         refresh()
         let wasSolved = board.isSolved
-        board.tap(cell, puzzle: puzzle)
+        body(&board)
         commit()
         if board.isSolved && !wasSolved { Reminders.cancel(day: puzzle.day) }
     }

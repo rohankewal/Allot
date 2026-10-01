@@ -67,6 +67,24 @@ struct EngineTests {
         #expect(!Board(for: easy).belongs(to: hard))
     }
 
+    @Test func draggingPlacesAndQuickTapRemoves() {
+        let puzzle = Generator.make(day: 3, difficulty: .easy)
+        var board = Board(for: puzzle)
+        let box = Box(top: 1, left: 1, bottom: 2, right: 3)
+        board.place(box, puzzle: puzzle)
+        #expect(board.boxes == [box])
+        board.place(Box(top: 2, left: 0, bottom: 2, right: 1), puzzle: puzzle)  // overlaps: replaces
+        #expect(board.boxes == [Box(top: 2, left: 0, bottom: 2, right: 1)])
+        board.quickTap(10, puzzle: puzzle)                                      // on the box: removes
+        #expect(board.boxes.isEmpty)
+        board.quickTap(0, puzzle: puzzle)                                       // empty cell: 1×1
+        #expect(board.boxes == [Box(top: 0, left: 0, bottom: 0, right: 0)])
+        // Dragging out the whole answer solves it.
+        var solved = Board(for: puzzle)
+        for b in puzzle.solution { solved.place(b, puzzle: puzzle) }
+        #expect(solved.isSolved)
+    }
+
     @Test func dayNumbersRoundTrip() {
         let today = Generator.day(for: .now)
         #expect(Generator.day(for: Generator.date(for: today)) == today)

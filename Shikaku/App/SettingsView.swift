@@ -68,6 +68,24 @@ struct SettingsView: View {
                 }
 
                 Section {
+                    Line("Split the grid into boxes. Every box holds exactly one number, and that number is how many cells the box covers.")
+                    Line("In the app, drag from one corner of a box to the opposite corner. Tap a box to remove it.")
+                    Line("On the widget, tap one corner, then the opposite corner. Widgets can't follow a drag.")
+                    Line("A dashed box is the wrong size. You can turn the dashes off above.")
+                    Line("A new puzzle every midnight, finished or not.")
+                } header: {
+                    header("How to play")
+                }
+
+                Section {
+                    Line("Touch and hold an empty part of your Home Screen until the apps jiggle.")
+                    Line("Tap Edit, then Add Widget, and search for Shikaku.")
+                    Line("Choose the large size and tap Add Widget. You can play right there.")
+                } header: {
+                    header("Add the widget")
+                }
+
+                Section {
                     LabeledContent("Version", value: version)
                 } footer: {
                     footer("Puzzles are made on your iPhone from the date. Nothing leaves your phone.")
@@ -144,6 +162,18 @@ struct SettingsView: View {
 
     private func reloadWidget() {
         WidgetCenter.shared.reloadTimelines(ofKind: GameStore.widgetKind)
+    }
+}
+
+private struct Line: View {
+    let text: String
+    init(_ text: String) { self.text = text }
+
+    var body: some View {
+        Text(text)
+            .font(.subheadline)
+            .foregroundStyle(Ink.secondary)
+            .fixedSize(horizontal: false, vertical: true)
     }
 }
 

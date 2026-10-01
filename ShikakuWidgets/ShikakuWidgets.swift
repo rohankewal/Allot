@@ -91,7 +91,7 @@ struct DailyShikakuView: View {
             BoardView(puzzle: puzzle, board: board, input: .intents, showsFit: entry.showsFit)
 
             HStack(alignment: .firstTextBaseline) {
-                Text(Copy.status(board, puzzle: puzzle, showsTime: entry.showsTime, showsFit: entry.showsFit))
+                Text(Copy.status(board, puzzle: puzzle, showsTime: entry.showsTime, showsFit: entry.showsFit, byDragging: false))
                     .font(.caption.monospacedDigit())
                     .foregroundStyle(board.isSolved ? Ink.primary : Ink.secondary)
                     .contentTransition(.opacity)
