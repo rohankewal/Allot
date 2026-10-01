@@ -11,8 +11,9 @@ final class GameModel {
     private(set) var board: Board
 
     init() {
-        puzzle = GameStore.puzzle(for: GameStore.today)
-        board = GameStore.board(for: puzzle)
+        let today = GameStore.puzzle(for: GameStore.today)
+        puzzle = today
+        board = GameStore.board(for: today)
     }
 
     func refresh() {

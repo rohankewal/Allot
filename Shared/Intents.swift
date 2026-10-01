@@ -3,8 +3,11 @@ import Foundation
 
 // The widget's buttons. They run in the widget's own process, save the
 // move to the App Group, and WidgetKit redraws the widget afterwards.
+// Not marked nonisolated: @Parameter properties are mutable stored
+// properties, which can't be. GameStore is nonisolated, so perform() can
+// call it from the main actor.
 
-nonisolated struct TapCellIntent: AppIntent {
+struct TapCellIntent: AppIntent {
     static let title: LocalizedStringResource = "Tap a cell"
     static let isDiscoverable = false
 
@@ -24,7 +27,7 @@ nonisolated struct TapCellIntent: AppIntent {
     }
 }
 
-nonisolated struct ClearBoardIntent: AppIntent {
+struct ClearBoardIntent: AppIntent {
     static let title: LocalizedStringResource = "Clear the board"
     static let isDiscoverable = false
 
