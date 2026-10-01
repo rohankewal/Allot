@@ -5,7 +5,12 @@ import SwiftUI
 /// kept in step with the widget), the rules, and how to add it.
 struct HomeView: View {
     @State private var model = GameModel()
+    @State private var showingSettings = false
     @Environment(\.scenePhase) private var scenePhase
+
+    @AppStorage(Settings.Key.showsFit, store: Settings.defaults) private var showsFit = true
+    @AppStorage(Settings.Key.showsTime, store: Settings.defaults) private var showsTime = true
+    @AppStorage(Settings.Key.haptics, store: Settings.defaults) private var haptics = true
 
     var body: some View {
         ScrollView {
@@ -21,24 +26,42 @@ struct HomeView: View {
         .background(Ink.canvas)
         .foregroundStyle(Ink.primary)
         .onChange(of: scenePhase) { _, phase in
-            if phase == .active { model.refresh() }
+            guard phase == .active else { return }
+            model.refresh()
+            // Keeps 30 days of reminders queued, and drops today's if the
+            // puzzle was solved in the widget.
+            Task { await Reminders.reschedule() }
+        }
+        .sheet(isPresented: $showingSettings) {
+            SettingsView { model.refresh() }
         }
         .onReceive(NotificationCenter.default.publisher(for: .NSCalendarDayChanged)) { _ in
             model.refresh()
         }
-        .sensoryFeedback(.selection, trigger: model.board.boxes.count)
-        .sensoryFeedback(.success, trigger: model.board.isSolved) { _, solved in solved }
+        .sensoryFeedback(trigger: model.board.boxes) { _, _ in haptics ? .selection : nil }
+        .sensoryFeedback(trigger: model.board.isSolved) { _, solved in haptics && solved ? .success : nil }
     }
 
     private var header: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            Text("Shikaku")
-                .font(.system(size: 34, weight: .semibold))
-                .tracking(-1.2)
-            HStack(spacing: 8) {
-                Text(model.puzzle.difficulty.title).microLabelStyle(Ink.primary)
-                Text(Copy.date(model.puzzle.day)).microLabelStyle()
+        HStack(alignment: .top) {
+            VStack(alignment: .leading, spacing: 6) {
+                Text("Shikaku")
+                    .font(.system(size: 34, weight: .semibold))
+                    .tracking(-1.2)
+                HStack(spacing: 8) {
+                    Text(model.puzzle.difficulty.title).microLabelStyle(Ink.primary)
+                    Text(Copy.date(model.puzzle.day)).microLabelStyle()
+                }
             }
+            Spacer()
+            Button { showingSettings = true } label: {
+                Image(systemName: "gearshape")
+                    .font(.system(size: 17, weight: .medium))
+                    .foregroundStyle(Ink.primary)
+                    .frame(width: 40, height: 40)
+                    .background(Ink.surface, in: Circle())
+            }
+            .accessibilityLabel("Settings")
         }
     }
 
@@ -46,9 +69,9 @@ struct HomeView: View {
         VStack(spacing: 14) {
             BoardView(puzzle: model.puzzle, board: model.board, input: .action { cell in
                 withAnimation(Motion.snap) { model.tap(cell) }
-            })
+            }, showsFit: showsFit)
             HStack(alignment: .firstTextBaseline) {
-                Text(Copy.status(model.board, puzzle: model.puzzle))
+                Text(Copy.status(model.board, puzzle: model.puzzle, showsTime: showsTime, showsFit: showsFit))
                     .font(.subheadline.monospacedDigit())
                     .foregroundStyle(model.board.isSolved ? Ink.primary : Ink.secondary)
                 Spacer()
@@ -72,8 +95,8 @@ struct HomeView: View {
             Text("How to play").microLabelStyle()
             Line("Split the grid into boxes. Every box holds exactly one number, and that number is how many cells the box covers.")
             Line("Tap a cell, then the opposite corner, to draw a box. Tap the same cell twice for a single square.")
-            Line("A dashed box is the wrong size. Tap a box to remove it.")
-            Line("Easy, medium or hard, chosen at random. A new puzzle every midnight, finished or not.")
+            Line("A dashed box is the wrong size. Tap a box to remove it. You can turn the dashes off in Settings.")
+            Line("Easy, medium or hard, chosen at random unless you pick one in Settings. A new puzzle every midnight, finished or not.")
         }
     }
 

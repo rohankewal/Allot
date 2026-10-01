@@ -24,7 +24,7 @@ struct EngineTests {
 
     @Test func drawingTheAnswerSolvesTheBoard() {
         let puzzle = Generator.make(day: 10, difficulty: .medium)
-        var board = Board(day: 10)
+        var board = Board(for: puzzle)
         for box in puzzle.solution {
             board.tap(box.top * puzzle.size + box.left, puzzle: puzzle)
             board.tap(box.bottom * puzzle.size + box.right, puzzle: puzzle)
@@ -34,7 +34,7 @@ struct EngineTests {
 
     @Test func tapsDrawReplaceAndRemove() {
         let puzzle = Generator.make(day: 3, difficulty: .easy)
-        var board = Board(day: 3)
+        var board = Board(for: puzzle)
         board.tap(0, puzzle: puzzle)
         #expect(board.anchor == 0)
         board.tap(6, puzzle: puzzle)                 // 2×2 in the corner
@@ -48,6 +48,23 @@ struct EngineTests {
         #expect(board.boxes == [Box(top: 0, left: 1, bottom: 0, right: 2)])
         board.tap(2, puzzle: puzzle)                 // tap a box: removes it
         #expect(board.boxes.isEmpty && board.anchor == nil)
+    }
+
+    @Test func fixedDifficultyGivesThatLevel() {
+        for level in Difficulty.allCases {
+            let puzzle = Generator.puzzle(for: 40, difficulty: level)
+            #expect(puzzle.difficulty == level && puzzle.size == level.size)
+        }
+        // The daily mix's board is the same as that level's fixed board.
+        let mixed = Generator.puzzle(for: 40)
+        #expect(mixed == Generator.puzzle(for: 40, difficulty: mixed.difficulty))
+    }
+
+    @Test func boardsBelongToOneDayAndLevel() {
+        let easy = Generator.puzzle(for: 5, difficulty: .easy)
+        let hard = Generator.puzzle(for: 5, difficulty: .hard)
+        #expect(Board(for: easy).belongs(to: easy))
+        #expect(!Board(for: easy).belongs(to: hard))
     }
 
     @Test func dayNumbersRoundTrip() {

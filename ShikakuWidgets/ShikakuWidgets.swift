@@ -15,6 +15,9 @@ struct PuzzleEntry: TimelineEntry {
     let date: Date
     let puzzle: Puzzle
     let board: Board
+    var appearance: Appearance = Settings.appearance
+    var showsFit: Bool = Settings.showsFit
+    var showsTime: Bool = Settings.showsTime
 }
 
 /// Two entries: the board as it stands now, and a fresh one at midnight.
@@ -44,7 +47,8 @@ struct PuzzleProvider: TimelineProvider {
     }
 
     private func entry(for day: Int, at date: Date) -> PuzzleEntry {
-        PuzzleEntry(date: date, puzzle: GameStore.puzzle(for: day), board: GameStore.board(for: day))
+        let puzzle = GameStore.puzzle(for: day)
+        return PuzzleEntry(date: date, puzzle: puzzle, board: GameStore.board(for: puzzle))
     }
 
     /// For the widget gallery: today's board with a few boxes already in, so
@@ -62,6 +66,7 @@ struct DailyShikakuWidget: Widget {
         StaticConfiguration(kind: GameStore.widgetKind, provider: PuzzleProvider()) { entry in
             DailyShikakuView(entry: entry)
                 .containerBackground(Ink.canvas, for: .widget)
+                .appearance(entry.appearance)
         }
         .configurationDisplayName("Daily Shikaku")
         .description("A new puzzle every day. Divide the grid into boxes, each holding one number equal to its size.")
@@ -83,10 +88,10 @@ struct DailyShikakuView: View {
                 Text(Copy.date(puzzle.day)).microLabelStyle()
             }
 
-            BoardView(puzzle: puzzle, board: board, input: .intents)
+            BoardView(puzzle: puzzle, board: board, input: .intents, showsFit: entry.showsFit)
 
             HStack(alignment: .firstTextBaseline) {
-                Text(Copy.status(board, puzzle: puzzle))
+                Text(Copy.status(board, puzzle: puzzle, showsTime: entry.showsTime, showsFit: entry.showsFit))
                     .font(.caption.monospacedDigit())
                     .foregroundStyle(board.isSolved ? Ink.primary : Ink.secondary)
                     .contentTransition(.opacity)
@@ -109,14 +114,15 @@ struct DailyShikakuView: View {
     DailyShikakuWidget()
 } timeline: {
     let puzzle = Generator.puzzle(for: Generator.day(for: .now))
-    PuzzleEntry(date: .now, puzzle: puzzle, board: Board(day: puzzle.day))
+    PuzzleEntry(date: .now, puzzle: puzzle, board: Board(for: puzzle))
+    PuzzleEntry(date: .now, puzzle: puzzle, board: .partial(puzzle, boxes: 3), appearance: .dark)
     PuzzleEntry(date: .now, puzzle: puzzle, board: .partial(puzzle, boxes: 3))
 }
 
 extension Board {
     /// Part of the answer filled in, for previews.
     static func partial(_ puzzle: Puzzle, boxes count: Int) -> Board {
-        var board = Board(day: puzzle.day)
+        var board = Board(for: puzzle)
         board.boxes = Array(puzzle.solution.prefix(count))
         return board
     }

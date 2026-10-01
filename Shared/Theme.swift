@@ -1,22 +1,30 @@
 import SwiftUI
+import UIKit
 
 // MARK: - Palette
 //
-// The same Ink as Lift and Settle, light side only: one ink on white paper
-// and a few greys. Nothing is coloured. A box's state is carried by shape
-// instead: dashed while it's the wrong size, solid and shaded when it fits,
-// solid ink when the whole board is done.
+// The same Ink as Lift and Settle: one ink, one surface, a few greys, and
+// nothing coloured. Light and dark are true inversions of each other. A
+// box's state is carried by shape instead of colour: dashed while it's the
+// wrong size, solid and shaded when it fits, solid ink when the board is done.
+
+nonisolated private func dynamic(light: Double, dark: Double) -> Color {
+    Color(UIColor { trait in
+        UIColor(white: trait.userInterfaceStyle == .dark ? dark : light, alpha: 1)
+    })
+}
 
 enum Ink {
-    static let canvas = Color(white: 1.00)
-    static let surface = Color(white: 0.96)
-    static let surfaceHigh = Color(white: 0.92)
-    static let primary = Color(white: 0.05)
-    static let secondary = Color(white: 0.40)
-    static let tertiary = Color(white: 0.55)
-    static let line = Color(white: 0.87)
-    static let accent = Color(white: 0.05)
-    static let onAccent = Color(white: 1.00)
+    /// Paper-white in light, near-black in dark.
+    static let canvas = dynamic(light: 1.00, dark: 0.04)
+    static let surface = dynamic(light: 0.96, dark: 0.09)
+    static let surfaceHigh = dynamic(light: 0.92, dark: 0.17)
+    static let primary = dynamic(light: 0.05, dark: 0.98)
+    static let secondary = dynamic(light: 0.40, dark: 0.66)
+    static let tertiary = dynamic(light: 0.55, dark: 0.48)
+    static let line = dynamic(light: 0.87, dark: 0.24)
+    static let accent = dynamic(light: 0.05, dark: 0.98)
+    static let onAccent = dynamic(light: 1.00, dark: 0.04)
 }
 
 extension View {
@@ -36,9 +44,9 @@ enum Motion {
 // MARK: - Words
 
 enum Copy {
-    static func status(_ board: Board, puzzle: Puzzle) -> String {
+    static func status(_ board: Board, puzzle: Puzzle, showsTime: Bool, showsFit: Bool) -> String {
         if let solved = board.solvedAt {
-            if let started = board.startedAt {
+            if showsTime, let started = board.startedAt {
                 let minutes = max(1, Int((solved.timeIntervalSince(started) / 60).rounded()))
                 return "Solved in \(minutes) min"
             }
@@ -46,10 +54,28 @@ enum Copy {
         }
         if board.anchor != nil { return "Now tap the opposite corner" }
         if board.boxes.isEmpty { return "Tap two corners to draw a box" }
-        return "\(board.satisfiedCount(in: puzzle)) of \(puzzle.clues.count) boxes"
+        // Counting boxes that fit would be a hint, so with hints off this
+        // counts boxes drawn instead.
+        if showsFit { return "\(board.satisfiedCount(in: puzzle)) of \(puzzle.clues.count) boxes fit" }
+        return "\(board.boxes.count) of \(puzzle.clues.count) boxes drawn"
     }
 
     static func date(_ day: Int) -> String {
         Generator.date(for: day).formatted(.dateTime.weekday(.abbreviated).month(.abbreviated).day())
+    }
+}
+
+// MARK: - Appearance
+
+extension View {
+    /// Forces light or dark when the person has picked one; Automatic
+    /// leaves the system's choice alone.
+    @ViewBuilder
+    func appearance(_ appearance: Appearance) -> some View {
+        if let scheme = appearance.colorScheme {
+            environment(\.colorScheme, scheme)
+        } else {
+            self
+        }
     }
 }

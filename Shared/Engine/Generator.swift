@@ -58,14 +58,22 @@ nonisolated enum Generator {
         return Difficulty.allCases[rng.int(Difficulty.allCases.count)]
     }
 
-    static func puzzle(for day: Int) -> Puzzle {
-        if let cached = cache.withLock({ $0[day] }) { return cached }
-        let made = make(day: day, difficulty: difficulty(for: day))
-        cache.withLock { $0 = [day: made] }
+    /// The day's board at a difficulty: the random one unless someone has
+    /// picked a fixed level in Settings. Same day and level, same board, so
+    /// everyone who plays Hard on a given day gets the same Hard board.
+    static func puzzle(for day: Int, difficulty: Difficulty? = nil) -> Puzzle {
+        let level = difficulty ?? self.difficulty(for: day)
+        let key = "\(day)-\(level.rawValue)"
+        if let cached = cache.withLock({ $0[key] }) { return cached }
+        let made = make(day: day, difficulty: level)
+        cache.withLock {
+            if $0.count > 6 { $0.removeAll() }
+            $0[key] = made
+        }
         return made
     }
 
-    private static let cache = Locked<[Int: Puzzle]>([:])
+    private static let cache = Locked<[String: Puzzle]>([:])
 
     private static func seed(_ day: Int, salt: UInt64) -> UInt64 {
         UInt64(bitPattern: Int64(day)) &* 0x2545_F491_4F6C_DD1D ^ salt

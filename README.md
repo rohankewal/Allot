@@ -4,7 +4,7 @@ A daily Shikaku puzzle that lives on the Home Screen. The app is just a way
 to get the widget: it shows the same board, the rules, and how to add it.
 
 Same family as Lift and Settle: SwiftUI, the monochrome Ink palette (light
-side only, white paper), Xcode 27 with synchronized folders.
+and dark as true inversions), Xcode 27 with synchronized folders.
 
 ## The puzzle
 
@@ -28,6 +28,22 @@ WidgetKit redraws afterwards.
 
 Box states are shown by shape, not colour: dashed = wrong size, shaded =
 fits, solid ink = board solved.
+
+## Settings
+
+Stored in the App Group (`Shared/Settings.swift`) so the widget follows them.
+
+- **Appearance:** Automatic, Light or Dark. The app sets it on its windows;
+  the widget overrides its colour scheme when one is forced.
+- **Difficulty:** Daily mix (random) or always easy / medium / hard. A fixed
+  level still gets a board seeded by the date, so everyone on that level gets
+  the same board. Changing it starts today's board over.
+- **Mark wrong sizes:** the dashed outline hint. Off = no hints until solved.
+- **Show solve time.**
+- **Daily reminder** at a chosen time: one-off notifications 30 days ahead,
+  each naming that day's difficulty; today's is dropped once it's solved.
+  Topped up whenever the app comes forward.
+- **Haptics** (app only; widgets can't vibrate).
 
 ## Layout
 

@@ -3,13 +3,23 @@ import Foundation
 /// Someone's progress on one day's puzzle.
 nonisolated struct Board: Codable, Hashable, Sendable {
     let day: Int
+    /// Changing difficulty in Settings swaps the puzzle, so a board belongs
+    /// to one day at one level.
+    let difficulty: Difficulty
     var boxes: [Box] = []
     /// The first corner of a box being drawn.
     var anchor: Int?
     var startedAt: Date?
     var solvedAt: Date?
 
-    init(day: Int) { self.day = day }
+    init(for puzzle: Puzzle) {
+        day = puzzle.day
+        difficulty = puzzle.difficulty
+    }
+
+    func belongs(to puzzle: Puzzle) -> Bool {
+        day == puzzle.day && difficulty == puzzle.difficulty
+    }
 
     var isSolved: Bool { solvedAt != nil }
     var isEmpty: Bool { boxes.isEmpty && anchor == nil }

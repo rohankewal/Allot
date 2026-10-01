@@ -14,6 +14,8 @@ struct BoardView: View {
     let puzzle: Puzzle
     let board: Board
     let input: Input
+    /// When off, every box looks the same until the board is solved.
+    var showsFit = true
 
     var body: some View {
         GeometryReader { proxy in
@@ -81,6 +83,8 @@ struct BoardView: View {
         Group {
             if board.isSolved {
                 shape.fill(Ink.accent)
+            } else if !showsFit {
+                shape.strokeBorder(Ink.primary, lineWidth: 1.5)
             } else if fits {
                 shape.fill(Ink.surfaceHigh)
                     .overlay(shape.strokeBorder(Ink.primary, lineWidth: 1.5))

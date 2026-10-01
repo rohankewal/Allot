@@ -6,8 +6,12 @@
 	     export compliance on each upload. -->
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
-	<!-- White launch screen, matching the app. -->
+	<!-- The launch screen is the app's own canvas colour, so opening the app
+	     doesn't flash white in dark mode. -->
 	<key>UILaunchScreen</key>
-	<dict/>
+	<dict>
+		<key>UIColorName</key>
+		<string>LaunchBackground</string>
+	</dict>
 </dict>
 </plist>
