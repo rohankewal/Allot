@@ -45,7 +45,7 @@ nonisolated enum Reminders {
 
             let level = choice.resolve(day: day)
             let content = UNMutableNotificationContent()
-            content.body = "Today's puzzle is ready: \(level.title.lowercased()), \(level.size)×\(level.size)."
+            content.body = "Today's puzzle is ready on your Home Screen: \(level.title.lowercased()), \(level.size)×\(level.size)."
             content.sound = .default
             let request = UNNotificationRequest(
                 identifier: prefix + String(day),

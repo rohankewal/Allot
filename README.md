@@ -2,8 +2,9 @@
 
 Formerly Shikaku (the name was taken on the App Store).
 
-A daily Shikaku-style puzzle that lives on the Home Screen. The app is just a way
-to get the widget: it shows the same board, the rules, and how to add it.
+A daily Shikaku-style puzzle that lives on the Home Screen. It's played only
+in the widget. The app is one page: how to play (with a still example board),
+how to add the widget, and settings.
 
 Same family as Lift and Settle: SwiftUI, the monochrome Ink palette (light
 and dark as true inversions), Xcode 27 with synchronized folders.
@@ -48,7 +49,6 @@ Stored in the App Group (`Shared/Settings.swift`) so the widget follows them.
 - **Daily reminder** at a chosen time: one-off notifications 30 days ahead,
   each naming that day's difficulty; today's is dropped once it's solved.
   Topped up whenever the app comes forward.
-- **Haptics** (app only; widgets can't vibrate).
 
 ## Layout
 
@@ -57,7 +57,7 @@ Stored in the App Group (`Shared/Settings.swift`) so the widget follows them.
 | `Shared/Engine` | all | Puzzle model, seeded generator, solver |
 | `Shared` | app + widget | Board state, App Group store, intents, theme, `BoardView` |
 | `AllotWidgets` | widget | Large widget, timeline (now + midnight) |
-| `Allot` | app | Home screen with the board, rules, widget steps |
+| `Allot` | app | One page: rules, widget steps, settings (no game) |
 | `AllotTests` | tests | A year of boards: unique, no guessing, stable |
 
 ## First run

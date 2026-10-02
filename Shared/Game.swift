@@ -34,19 +34,7 @@ nonisolated struct Board: Codable, Hashable, Sendable {
         if puzzle.isSolved(by: boxes) { solvedAt = now }
     }
 
-    /// A quick tap in the app (where boxes are dragged) removes the box
-    /// under the finger. Boxes are at least two cells, so a tap on an empty
-    /// cell does nothing.
-    mutating func quickTap(_ cell: Int, puzzle: Puzzle) {
-        guard !isSolved, cell >= 0, cell < puzzle.cellCount else { return }
-        anchor = nil
-        if let index = boxes.firstIndex(where: { $0.contains(cell, size: puzzle.size) }) {
-            boxes.remove(at: index)
-        }
-    }
-
-    /// Drawing in two taps, for the widget (which can't follow a drag) and
-    /// VoiceOver: tap one corner, then the opposite one. Tapping the first
+    /// Drawing in two taps (widgets can't follow a drag): tap one corner, then the opposite one. Tapping the first
     /// corner again cancels it (boxes are at least two cells), and tapping a
     /// box when nothing is being drawn removes it.
     mutating func tap(_ cell: Int, puzzle: Puzzle, now: Date = .now) {

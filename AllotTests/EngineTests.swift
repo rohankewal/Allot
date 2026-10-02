@@ -83,7 +83,7 @@ struct EngineTests {
         #expect(!Board(for: easy).belongs(to: hard))
     }
 
-    @Test func draggingPlacesAndQuickTapRemoves() {
+    @Test func placingReplacesOverlaps() {
         let puzzle = Generator.make(day: 3, difficulty: .easy)
         var board = Board(for: puzzle)
         let box = Box(top: 1, left: 1, bottom: 2, right: 3)
@@ -91,11 +91,6 @@ struct EngineTests {
         #expect(board.boxes == [box])
         board.place(Box(top: 2, left: 0, bottom: 2, right: 1), puzzle: puzzle)  // overlaps: replaces
         #expect(board.boxes == [Box(top: 2, left: 0, bottom: 2, right: 1)])
-        board.quickTap(10, puzzle: puzzle)                                      // on the box: removes
-        #expect(board.boxes.isEmpty)
-        board.quickTap(0, puzzle: puzzle)                                       // empty cell: nothing
-        #expect(board.boxes.isEmpty)
-        // Dragging out the whole answer solves it.
         var solved = Board(for: puzzle)
         for b in puzzle.solution { solved.place(b, puzzle: puzzle) }
         #expect(solved.isSolved)

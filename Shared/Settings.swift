@@ -73,7 +73,6 @@ nonisolated enum Settings {
         static let difficulty = "difficulty"
         static let showsFit = "showsFit"
         static let showsTime = "showsTime"
-        static let haptics = "haptics"
         static let reminderOn = "reminderOn"
         static let reminderMinutes = "reminderMinutes"
     }
@@ -90,7 +89,6 @@ nonisolated enum Settings {
     /// want no hints until the board is done.
     static var showsFit: Bool { bool(Key.showsFit, default: true) }
     static var showsTime: Bool { bool(Key.showsTime, default: true) }
-    static var haptics: Bool { bool(Key.haptics, default: true) }
     static var reminderOn: Bool { bool(Key.reminderOn, default: false) }
 
     /// Minutes after midnight. 9:00 by default.

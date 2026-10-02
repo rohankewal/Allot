@@ -1,28 +1,15 @@
 import AppIntents
 import SwiftUI
 
-/// The grid, shared by the widget and the app.
-///
-/// In the app, boxes are dragged out: press on one corner, drag to the
-/// opposite one, let go. A live outline and size badge follow the finger.
-/// A quick tap removes a box. Boxes are at least two cells. VoiceOver
-/// users draw with two taps instead, as on the widget.
-///
-/// In the widget each cell is a `Button(intent:)`, because widgets only take
-/// taps: tap one corner, then the opposite one.
+/// The grid. In the widget each cell is a `Button(intent:)`, because
+/// widgets only take taps: tap one corner, then the opposite one. The app
+/// only shows it as a still example in the rules.
 struct BoardView: View {
     enum Input {
+        /// Widget: taps run `TapCellIntent` for this day.
         case intents
-        case interactive(Interaction)
-    }
-
-    struct Interaction {
-        var place: (Box) -> Void
-        var quickTap: (Int) -> Void
-        /// Two-tap drawing, for VoiceOver.
-        var cornerTap: (Int) -> Void
-        /// The box being dragged, or nil once the finger lifts.
-        var onPreview: (Box?) -> Void = { _ in }
+        /// A picture of a board, not playable.
+        case display
     }
 
     let puzzle: Puzzle
@@ -30,13 +17,6 @@ struct BoardView: View {
     let input: Input
     /// When off, every box looks the same until the board is solved.
     var showsFit = true
-
-    private struct DragState: Equatable {
-        var start: Int
-        var end: Int
-    }
-
-    @GestureState private var drag: DragState?
 
     var body: some View {
         GeometryReader { proxy in
@@ -49,9 +29,6 @@ struct BoardView: View {
                 }
                 if let anchor = board.anchor {
                     anchorMark(anchor, cell: cell)
-                }
-                if let preview {
-                    previewShape(preview, cell: cell)
                 }
                 ForEach(puzzle.clues, id: \.cell) { clue in
                     Text("\(clue.value)")
@@ -67,9 +44,6 @@ struct BoardView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
         .aspectRatio(1, contentMode: .fit)
-        .onChange(of: preview) { _, box in
-            if case .interactive(let interaction) = input { interaction.onPreview(box) }
-        }
     }
 
     // MARK: Geometry
@@ -77,23 +51,9 @@ struct BoardView: View {
     private func x(_ index: Int, _ cell: CGFloat) -> CGFloat { CGFloat(index % puzzle.size) * cell }
     private func y(_ index: Int, _ cell: CGFloat) -> CGFloat { CGFloat(index / puzzle.size) * cell }
 
-    private func cellAt(_ point: CGPoint, _ cell: CGFloat) -> Int {
-        let n = puzzle.size
-        let column = min(n - 1, max(0, Int(point.x / cell)))
-        let row = min(n - 1, max(0, Int(point.y / cell)))
-        return row * n + column
-    }
-
     /// Boxes sit just inside their cells so neighbours read as separate.
     private let inset: CGFloat = 2.5
     private func radius(_ cell: CGFloat) -> CGFloat { max(4, cell * 0.14) }
-
-    private var preview: Box? {
-        // Boxes are at least two cells, so nothing shows until the finger
-        // reaches a second cell.
-        guard let drag, drag.start != drag.end else { return nil }
-        return Box(spanning: drag.start, drag.end, size: puzzle.size)
-    }
 
     private func inverted(_ cell: Int) -> Bool {
         board.isSolved || board.anchor == cell
@@ -154,25 +114,6 @@ struct BoardView: View {
         }
     }
 
-    /// The box under the finger, with its size in a badge on the corner.
-    private func previewShape(_ box: Box, cell: CGFloat) -> some View {
-        let shape = RoundedRectangle(cornerRadius: radius(cell), style: .continuous)
-        return place(
-            shape.fill(Ink.primary.opacity(0.14))
-                .overlay(shape.strokeBorder(Ink.primary, lineWidth: 2.5))
-                .overlay(alignment: .topTrailing) {
-                    Text("\(box.area)")
-                        .font(.system(size: max(12, cell * 0.26), weight: .bold).monospacedDigit())
-                        .foregroundStyle(Ink.onAccent)
-                        .padding(.horizontal, 7)
-                        .padding(.vertical, 2)
-                        .background(Ink.accent, in: Capsule())
-                        .offset(x: 6, y: -10)
-                },
-            box, cell: cell
-        )
-    }
-
     private func anchorMark(_ index: Int, cell: CGFloat) -> some View {
         RoundedRectangle(cornerRadius: radius(cell), style: .continuous)
             .fill(Ink.accent)
@@ -197,42 +138,9 @@ struct BoardView: View {
                 .offset(x: x(index, cell), y: y(index, cell))
                 .accessibilityLabel(accessibilityLabel(index))
             }
-        case .interactive(let interaction):
-            ZStack(alignment: .topLeading) {
-                // One invisible element per cell for VoiceOver, which draws
-                // with two taps. Touches pass through to the drag below.
-                ForEach(0..<puzzle.cellCount, id: \.self) { index in
-                    Color.clear
-                        .frame(width: cell, height: cell)
-                        .offset(x: x(index, cell), y: y(index, cell))
-                        .accessibilityElement()
-                        .accessibilityLabel(accessibilityLabel(index))
-                        .accessibilityAddTraits(.isButton)
-                        .accessibilityAction { interaction.cornerTap(index) }
-                }
-            }
-            .frame(width: side, height: side, alignment: .topLeading)
-            .contentShape(Rectangle())
-            .gesture(dragGesture(cell: cell, interaction: interaction))
+        case .display:
+            EmptyView()
         }
-    }
-
-    private func dragGesture(cell: CGFloat, interaction: Interaction) -> some Gesture {
-        // Letting go in the cell you started in is a tap (it removes the box
-        // there); anywhere else draws the box between the two cells.
-        DragGesture(minimumDistance: 0)
-            .updating($drag) { value, state, _ in
-                state = DragState(start: cellAt(value.startLocation, cell), end: cellAt(value.location, cell))
-            }
-            .onEnded { value in
-                let start = cellAt(value.startLocation, cell)
-                let end = cellAt(value.location, cell)
-                if start == end {
-                    interaction.quickTap(start)
-                } else {
-                    interaction.place(Box(spanning: start, end, size: puzzle.size))
-                }
-            }
     }
 
     private func accessibilityLabel(_ index: Int) -> String {
